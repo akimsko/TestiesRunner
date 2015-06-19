@@ -1,0 +1,25 @@
+{
+    "name": "akimsko/testies-runner",
+    "description": "Test runner for mindplay/testies",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bo Thinggaard",
+            "email": "akimsko@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "~2.7",
+        "mindplay/testies": "dev-master@dev",
+        "phpunit/php-code-coverage": "^2.1.6",
+        "guzzlehttp/guzzle": "~5.0",
+        "ext-xdebug": ">=2.1.4"
+    },
+    "bin": ["bin/testies"],
+    "autoload": {
+        "psr-4": {
+            "TestiesRunner\\": "src//"
+        }
+    }
+}
