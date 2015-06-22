@@ -25,6 +25,19 @@ class Run extends Command
     /** @var OutputInterface */
     private $output;
 
+    /** @var string */
+    private $bin;
+
+    /**
+     * @param string      $bin
+     * @param null|string $name
+     */
+    public function __construct($bin, $name = null)
+    {
+        $this->bin = $bin;
+        parent::__construct($name);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -116,14 +129,11 @@ class Run extends Command
      */
     protected function runAll($testsDir, $filePattern, $config)
     {
-        $bin = __DIR__ . '/../../run.php';
         $exitCode = 0;
 
         foreach (glob("$testsDir/$filePattern") as $testFile) {
             $retVal = 0;
-
-            passthru("$bin run $testFile --test-dir=$testsDir --config={$config}", $retVal);
-
+            passthru("{$this->bin} run $testFile --test-dir=$testsDir --config={$config}", $retVal);
             $exitCode = $exitCode | $retVal;
         }
 
