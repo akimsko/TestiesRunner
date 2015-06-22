@@ -61,7 +61,8 @@ class Run extends Command
                 'config',
                 '-c',
                 InputOption::VALUE_OPTIONAL,
-                "Testies config file"
+                "Testies config file",
+                null
             )
             ->addOption(
                 'pattern',
@@ -97,9 +98,9 @@ class Run extends Command
     /**
      * runSingle.
      *
-     * @param string $testsDir
-     * @param string $test
-     * @param string $config
+     * @param string      $testsDir
+     * @param string      $test
+     * @param string|null $config
      *
      * @return int
      */
@@ -108,7 +109,7 @@ class Run extends Command
         $this->output->writeln("\n<comment>Running $test</comment>");
 
         ob_start();
-        $exitCode = Scoper::scope("$testsDir/$test");
+        $exitCode = Scoper::scope("$testsDir/$test", $config);
         $output = ob_get_clean();
 
         $format = $exitCode ? 'error' : 'info';
@@ -121,9 +122,9 @@ class Run extends Command
     /**
      * runAll.
      *
-     * @param string $testsDir
-     * @param string $filePattern
-     * @param string $config
+     * @param string      $testsDir
+     * @param string      $filePattern
+     * @param string|null $config
      *
      * @return int
      */
@@ -132,8 +133,9 @@ class Run extends Command
         $exitCode = 0;
 
         foreach (glob("$testsDir/$filePattern") as $testFile) {
+            $testFile = basename($testFile);
             $retVal = 0;
-            passthru("{$this->bin} run $testFile --test-dir=$testsDir --config={$config}", $retVal);
+            passthru("{$this->bin} run $testFile --tests-dir=$testsDir --config={$config}", $retVal);
             $exitCode = $exitCode | $retVal;
         }
 
