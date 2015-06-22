@@ -114,7 +114,7 @@ class Run extends Command
 
         $format = $exitCode ? 'error' : 'info';
 
-        $output->writeln("<$format>$output</$format>");
+        $this->output->writeln("<$format>$output</$format>");
 
         return $exitCode;
     }
